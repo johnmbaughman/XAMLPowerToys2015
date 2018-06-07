@@ -1,6 +1,7 @@
 ﻿namespace XamlPowerToys.Model {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Windows;
 
     public abstract class FormComponentModelBase {
@@ -142,7 +143,7 @@
             }
 
             if (generateFormModel.AddNameToUIControls) {
-                this.ControlNameText = $"x:Name=\"{viewModel.Name.Substring(0, 1).ToLower()}{viewModel.Name.Substring(1)}\" ";
+                this.ControlNameText = $"x:Name=\"{viewModel.Name.Substring(0, 1).ToLower(CultureInfo.InvariantCulture)}{viewModel.Name.Substring(1)}\" ";
             }
 
             if (viewModel.LabelWidth.HasValue) {

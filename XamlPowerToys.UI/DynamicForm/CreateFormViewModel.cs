@@ -321,6 +321,19 @@
 
                 this.ClassEntity = propertyInformationViewModel.ClassEntity;
 
+                if (_parentChildEntities.Count > 1) {
+                    var prefix = String.Empty;
+                    foreach (var entry in _parentChildEntities.ToArray().Reverse().Skip(1).ToList()) {
+                        prefix += $"{entry.ClassName}.";
+                    }
+
+                    foreach (var model in propertyInformationViewModel.ClassEntity.PropertyInformationCollection) {
+                        if (!model.BindingPath.StartsWith(prefix)) {
+                            model.SetNestedBindingPath($"{prefix}{model.BindingPath}");
+                        }
+                    }
+                }
+
                 propertyInformationViewModel.ClassEntity.PropertyInformationCollection.Sort();
                 this.PropertyInformationCollection = propertyInformationViewModel.ClassEntity.PropertyInformationCollection;
                 this.ChildClassEntityInView = true;

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using EnvDTE;
@@ -64,8 +65,8 @@
             foreach (AssemblyNameReference assemblyReference in sourceAssemblyDefinition.MainModule.AssemblyReferences) {
                 if (!AssemblyAssistant.SkipLoadingAssembly(assemblyReference.Name)) {
                     var assemblyFullPath = GetAssemblyFullPath(sourceProjectPath, assemblyReference.Name);
-                    if (!String.IsNullOrWhiteSpace(assemblyFullPath) && !assembliesToLoad.ContainsKey(assemblyFullPath.ToLower())) {
-                        assembliesToLoad.Add(assemblyFullPath.ToLower(), String.Empty);
+                    if (!String.IsNullOrWhiteSpace(assemblyFullPath) && !assembliesToLoad.ContainsKey(assemblyFullPath.ToLower(CultureInfo.InvariantCulture))) {
+                        assembliesToLoad.Add(assemblyFullPath.ToLower(CultureInfo.InvariantCulture), String.Empty);
                     }
                 }
             }
@@ -73,7 +74,7 @@
             //load up all assemblies referenced in the project but that are not loaded yet.
             foreach (var projectReference in GetProjectReferences(sourceProject)) {
                 if (!assembliesToLoad.ContainsKey(projectReference)) {
-                    assembliesToLoad.Add(projectReference.ToLower(), String.Empty);
+                    assembliesToLoad.Add(projectReference.ToLower(CultureInfo.InvariantCulture), String.Empty);
                 }
             }
 
@@ -90,7 +91,7 @@
             }
 
             var listOfConverters = new List<String>();
-            listOfConverters.AddRange(classEntities.Where(x => x.ClassName.ToLower().EndsWith("converter")).Select(n => n.ClassName).ToList());
+            listOfConverters.AddRange(classEntities.Where(x => x.ClassName.ToLower(CultureInfo.InvariantCulture).EndsWith("converter")).Select(n => n.ClassName).ToList());
 
             var view = new SelectClassFromAssembliesView(classEntities, sourceCommandName, xamlFileClassName);
             var result = view.ShowDialog();
@@ -160,13 +161,13 @@
                     if (md.Name == type.Module.Name) {
                         return returnValue;
                     }
-                    baseTypeAssemblyName = md.Name.ToLower();
+                    baseTypeAssemblyName = md.Name.ToLower(CultureInfo.InvariantCulture);
                 }
 
                 if (baseTypeAssemblyName == null) {
                     var anr = type.BaseType.Scope as AssemblyNameReference;
                     if (anr != null) {
-                        baseTypeAssemblyName = anr.Name.ToLower();
+                        baseTypeAssemblyName = anr.Name.ToLower(CultureInfo.InvariantCulture);
                     }
                 }
 
@@ -263,14 +264,19 @@
                     if (obj.HasGenericArguments) {
                         foreach (TypeReference genericTr in obj.GenericArguments) {
                             pi.GenericArguments.Add(genericTr.Name);
-                            if (!genericTr.Namespace.Contains("System")) {
-                                TypeDefinition genericTd = genericTr as TypeDefinition;
+                            if (!genericTr.Namespace.Contains("System") && !genericTr.Namespace.Contains("Xamarin.")) {
+                                var genericTd = genericTr as TypeDefinition;
                                 if (genericTd == null) {
-                                    genericTd = genericTr.Resolve();
+                                    try {
+                                        genericTd = genericTr.Resolve();
+                                    } catch {
+                                        Debug.WriteLine(genericTr.Name);
+                                        continue;
+                                    }
                                 }
-
+                                
                                 if (genericTd != null) {
-                                    if (genericTd.HasProperties && genericTd.IsPublic && genericTd.IsClass && !genericTd.IsAbstract && !genericTd.Namespace.Contains("System")) {
+                                    if (genericTd.HasProperties && genericTd.IsPublic && genericTd.IsClass && !genericTd.IsAbstract && !genericTd.Namespace.Contains("System") && !genericTd.Namespace.Contains("Xamarin.")) {
                                         foreach (var prop in genericTd.Properties) {
                                             pi.GenericCollectionClassPropertyNames.Add(prop.Name);
                                         }
@@ -289,7 +295,7 @@
                 classEntity.PropertyInformationCollection.Add(pi);
 
                 if (td != null) {
-                    if (td.HasProperties && td.IsPublic && td.IsClass && !td.IsAbstract && !td.Namespace.Contains("System")) {
+                    if (td.HasProperties && td.IsPublic && td.IsClass && !td.IsAbstract && !td.Namespace.Contains("System") && !td.Namespace.Contains("Xamarin.")) {
                         var childTypeDefinition = td;
                         var childAssemblyDefinition = td.Module.Assembly;
                         pi.ClassEntity = new ClassEntity(childAssemblyDefinition, childTypeDefinition, classEntity.ProjectType, "");

@@ -50,7 +50,7 @@
 
         public IEnumerable<String> BindingModes { get; private set; }
 
-        public String BindingPath { get; }
+        public String BindingPath { get; private set; }
 
         public Boolean CanWrite { get; }
 
@@ -293,6 +293,16 @@
             return this.Name.Equals(other.Name);
         }
 
+        IEnumerable<ControlDefinition> GetControlControlDefinitions() {
+            var list = new List<ControlDefinition>();
+            foreach (var name in Enum.GetNames(typeof(ControlType))) {
+                if (name.StartsWith(_projectTypeName)) {
+                    list.Add(new ControlDefinition((ControlType)Enum.Parse(typeof(ControlType), name)));
+                }
+            }
+            return list;
+        }
+
         public IConstructControlFactory GetTemplateFactory() {
             return (IConstructControlFactory)this.ControlSpecificProperties;
         }
@@ -304,16 +314,6 @@
             this.ControlSpecificProperties = null;
             this.LabelText = this.DefaultLabelText;
             SetDefaultControlDefinition();
-        }
-
-        IEnumerable<ControlDefinition> GetControlControlDefinitions() {
-            var list = new List<ControlDefinition>();
-            foreach (var name in Enum.GetNames(typeof(ControlType))) {
-                if (name.StartsWith(_projectTypeName)) {
-                    list.Add(new ControlDefinition((ControlType)Enum.Parse(typeof(ControlType), name)));
-                }
-            }
-            return list;
         }
 
         void SetBindingModes() {
@@ -374,6 +374,13 @@
             }
         }
 
+        public void SetNestedBindingPath(String nestedBindingPath) {
+            if (!this.IsNonBindingControl) {
+                this.BindingPath = nestedBindingPath;
+                RaisePropertyChanged(nameof(this.BindingPath));
+            }
+        }
+
         void SetSilverlightControlSpecificPropertiesObject() {
             this.ShowStringFormatProperty = false;
 
@@ -414,7 +421,7 @@
                 return;
             }
 
-            if (!CanWrite && this.TypeName != "ICommand") {
+            if (!this.CanWrite && this.TypeName != "ICommand") {
                 this.ControlDefinition = this.ControlDefinitions.First(x => x.ControlType == ControlType.SilverlightTextBlock);
                 return;
             }
@@ -493,7 +500,7 @@
                 return;
             }
 
-            if (!CanWrite && this.TypeName != "ICommand") {
+            if (!this.CanWrite && this.TypeName != "ICommand") {
                 this.ControlDefinition = this.ControlDefinitions.First(x => x.ControlType == ControlType.UwpTextBlock);
                 this.BindingMode = BindingMode.OneWay;
                 return;
@@ -567,7 +574,7 @@
                 return;
             }
 
-            if (!CanWrite && this.TypeName != "ICommand") {
+            if (!this.CanWrite && this.TypeName != "ICommand") {
                 this.ControlDefinition = this.ControlDefinitions.First(x => x.ControlType == ControlType.WpfTextBlock);
                 return;
             }
@@ -655,7 +662,7 @@
                 return;
             }
 
-            if (!CanWrite && this.TypeName != "ICommand") {
+            if (!this.CanWrite && this.TypeName != "ICommand") {
                 this.ControlDefinition = this.ControlDefinitions.First(x => x.ControlType == ControlType.XamarinLabel);
                 return;
             }
