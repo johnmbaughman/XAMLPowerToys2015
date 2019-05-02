@@ -7,6 +7,10 @@ or get the [CI build](http://vsixgallery.com/extension/d01c1624-8838-4097-bf77-f
 
 ---------------------------------------
 
+## Visual Studio 2017 Support - On Hold
+I discovered a problem with the way references are resolved with the package on Visual Studio 2017.  I'm working with Microsoft to resolve the issue.
+
+
 Visual Studio 2017 - 2019 extension that enables developers to rapidly generate data entry forms from view models or entity objects for Xamarin Forms, UWP, WPF, and Silverlight.
 
 See the [changelog](CHANGELOG.md) for changes and roadmap.

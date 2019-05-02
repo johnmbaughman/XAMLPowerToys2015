@@ -4,7 +4,7 @@
                  xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="d01c1624-8838-4097-bf77-f52d73fc7a1f"
-                  Version="2.0.0"
+                  Version="2.0.1"
                   Language="en-US"
                   Publisher="Karl Shifflett (kdawg)" />
         <DisplayName>XAML Power Toys for Visual Studio 2017 - 2019</DisplayName>
@@ -15,7 +15,7 @@
         <Tags>xaml, xaml power toys, code generation, wpf, uwp, xamarin, silverlight</Tags>
     </Metadata>
     <Installation>
-        <InstallationTarget Version="[15.0,17.0)" Id="Microsoft.VisualStudio.Community" />
+        <InstallationTarget Version="[16.0,17.0)" Id="Microsoft.VisualStudio.Community" />
     </Installation>
     <Dependencies>
         <Dependency Id="Microsoft.Framework.NDP"

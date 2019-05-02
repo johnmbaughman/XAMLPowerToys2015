@@ -10,6 +10,9 @@ download in the
 
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
+## 2.0.1
+- [x] Rolled back support for Visual Studio 2017, working with Microsoft on the issue.
+
 ## 2.0.0
 
 - [x] All Updated for Visual Studio 2017 and 2019

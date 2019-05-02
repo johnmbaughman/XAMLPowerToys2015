@@ -11,7 +11,7 @@ namespace XamlPowerToys
         public const string Name = "XAML Power Toys for Visual Studio 2017 - 2019";
         public const string Description = @"Visual Studio 2017 - 2019 extension that enables developers to rapidly generate data entry forms from view models or entity objects for Xamarin Forms, UPW, WPF, and Silverlight.";
         public const string Language = "en-US";
-        public const string Version = "2.0.0";
+        public const string Version = "2.0.1";
         public const string Author = "Karl Shifflett (kdawg)";
         public const string Tags = "xaml, xaml power toys, code generation, wpf, uwp, xamarin, silverlight";
     }

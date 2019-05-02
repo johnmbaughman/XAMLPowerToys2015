@@ -29,7 +29,7 @@
             if (sourceProject == null) {
                 throw new ArgumentNullException(nameof(sourceProject));
             }
-            if (string.IsNullOrWhiteSpace(sourceCommandName)) {
+            if (String.IsNullOrWhiteSpace(sourceCommandName)) {
                 throw new ArgumentException("Value cannot be null or white space.", nameof(sourceCommandName));
             }
             if (!Enum.IsDefined(typeof(ProjectType), projectFrameworkType)) {
