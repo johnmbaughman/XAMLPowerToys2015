@@ -3,65 +3,68 @@
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable"
               xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <Extern href="stdidcmd.h" />
+  <Extern href="stdidcmd.h" />
 
-    <Extern href="vsshlids.h" />
+  <Extern href="vsshlids.h" />
 
-    <Commands package="guidXamlPowerToysCommandPackage">
-        <Groups>
-            <Group guid="guidXamlCmdSet" id="MyMenuGroup" priority="0x0600">
-                <Parent guid="guidXamlCmdSet" id="editorContextMenu" />
-            </Group>
-            <Group guid="guidXamarinXamlCmdSet" id="XamarinMenuGroup" priority="0x0600">
-                <Parent guid="guidXamarinXamlCmdSet" id="codeEditorContextMenu" />
-            </Group>
-        </Groups>
+  <Commands package="guidXamlPowerToysCommandPackage">
+    <Groups>
+      <Group guid="guidXamlCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidXamlCmdSet" id="editorContextMenu" />
+      </Group>
+      <Group guid="guidXamarinXamlCmdSet" id="XamarinMenuGroup" priority="0x0600">
+        <Parent guid="guidXamarinXamlCmdSet" id="codeEditorContextMenu" />
+      </Group>
+    </Groups>
 
-        <Buttons>
-            <Button guid="guidXamlCmdSet" id="XamlPowerToysCommandId" priority="0x0100" type="Button">
-                <Parent guid="guidXamlCmdSet" id="MyMenuGroup" />
-                <Icon guid="guidImages" id="bmpPic1" />
-                <Strings>
-                    <ButtonText>XAML Power Toys</ButtonText>
-                </Strings>
-              <CommandFlag>DefaultInvisible</CommandFlag>
-              <CommandFlag>DynamicVisibility</CommandFlag>
-            </Button>
-            
-            <Button guid="guidXamarinXamlCmdSet" id="XamarinXamlPowerToysCommandId" priority="0x0100" type="Button">
-                <Parent guid="guidXamarinXamlCmdSet" id="XamarinMenuGroup" />
-                <Icon guid="guidImages" id="bmpPic1" />
-                <Strings>
-                    <ButtonText>XAML Power Toys</ButtonText>
-                </Strings>
-                <CommandFlag>DefaultInvisible</CommandFlag>
-                <CommandFlag>DynamicVisibility</CommandFlag>
-            </Button>
-        </Buttons>
+    <Buttons>
+      <Button guid="guidXamlCmdSet" id="XamlPowerToysCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidXamlCmdSet" id="MyMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>XAML Power Toys</ButtonText>
+        </Strings>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+      </Button>
 
-        <Bitmaps>
-            <Bitmap guid="guidImages" href="Resources\XamlPowerToysCommand.png" usedList="bmpPic1" />
-        </Bitmaps>
-    </Commands>
+      <Button guid="guidXamarinXamlCmdSet" id="XamarinXamlPowerToysCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidXamarinXamlCmdSet" id="XamarinMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>XAML Power Toys</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
 
-    <Symbols>
-        <GuidSymbol name="guidXamlPowerToysCommandPackage" value="{fec33645-eb1c-423e-843f-7bd8ddf9e0d0}" />
+    <Bitmaps>
+      <Bitmap guid="guidImages" href="Resources\XamlPowerToysCommand.png" usedList="bmpPic1" />
+    </Bitmaps>
+  </Commands>
 
-        <GuidSymbol name="guidXamlCmdSet" value="{4C87B692-1202-46AA-B64C-EF01FAEC53DA}">
-            <IDSymbol name="editorContextMenu" value="259" />
-            <IDSymbol name="MyMenuGroup" value="0x1020" />
-            <IDSymbol name="XamlPowerToysCommandId" value="0x0100" />
-        </GuidSymbol>
+  <VisibilityConstraints>
+    <VisibilityItem guid="guidXamlCmdSet" id="XamlPowerToysCommandId"  context="UIContextGuid" />
+  </VisibilityConstraints>  
+  
+  <Symbols>
+    <GuidSymbol name="UIContextGuid" value="{D68D939C-A06E-48B9-BDF9-11FEA8548B67}" />
+    <GuidSymbol name="guidXamlPowerToysCommandPackage" value="{fec33645-eb1c-423e-843f-7bd8ddf9e0d0}" />
 
-        <GuidSymbol name="guidXamarinXamlCmdSet" value="{D309F791-903F-11D0-9EFC-00A0C911004F}">
-            <IDSymbol name="codeEditorContextMenu" value="1037" />
-            <IDSymbol name="XamarinMenuGroup" value="0x1020" />
-            <IDSymbol name="XamarinXamlPowerToysCommandId" value="256" />
-        </GuidSymbol>        
+    <GuidSymbol name="guidXamlCmdSet" value="{4C87B692-1202-46AA-B64C-EF01FAEC53DA}">
+      <IDSymbol name="editorContextMenu" value="259" />
+      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="XamlPowerToysCommandId" value="0x0100" />
+    </GuidSymbol>
 
-        <GuidSymbol name="guidImages" value="{b4a03163-4e05-460c-97ff-a8a943442754}">
-            <IDSymbol name="bmpPic1" value="1" />
-        </GuidSymbol>
+    <GuidSymbol name="guidXamarinXamlCmdSet" value="{D309F791-903F-11D0-9EFC-00A0C911004F}">
+      <IDSymbol name="codeEditorContextMenu" value="1037" />
+      <IDSymbol name="XamarinMenuGroup" value="0x1020" />
+      <IDSymbol name="XamarinXamlPowerToysCommandId" value="256" />
+    </GuidSymbol>
 
-    </Symbols>
+    <GuidSymbol name="guidImages" value="{b4a03163-4e05-460c-97ff-a8a943442754}">
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+
+  </Symbols>
 </CommandTable>

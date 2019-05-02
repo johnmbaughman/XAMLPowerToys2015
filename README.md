@@ -1,4 +1,4 @@
-# XAML Power Toys for Visual Studio 2015 - 2017
+# XAML Power Toys for Visual Studio 2017 - 2019
 
 [![Build status](https://ci.appveyor.com/api/projects/status/ns2n4aew6xx5txfd?svg=true)](https://ci.appveyor.com/project/kdawg1406/xamlpowertoys2015)
 
@@ -7,7 +7,7 @@ or get the [CI build](http://vsixgallery.com/extension/d01c1624-8838-4097-bf77-f
 
 ---------------------------------------
 
-Visual Studio 2015 - 2017 extension that enables developers to rapidly generate data entry forms from view models or entity objects for Xamarin Forms, UWP, WPF, and **Silverlight**.
+Visual Studio 2017 - 2019 extension that enables developers to rapidly generate data entry forms from view models or entity objects for Xamarin Forms, UWP, WPF, and Silverlight.
 
 See the [changelog](CHANGELOG.md) for changes and roadmap.
 
@@ -188,9 +188,11 @@ The States and Countries collections are exposed on the view model, making the t
 
 ![City State Zip Country](Art/city-state-zip-country.png)
 
+## Clone and Build
+
 For cloning and building this project yourself, make sure
 to install the
-[Extensibility Tools 2015](https://visualstudiogallery.msdn.microsoft.com/ab39a092-1343-46e2-b0f1-6a3f91155aa6)
+[Extensibility Tools 2019](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.ExtensibilityEssentials2019)
 extension for Visual Studio which enables some features
 used by this project.
 

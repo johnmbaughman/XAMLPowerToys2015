@@ -17,20 +17,19 @@
         readonly ProjectType _projectType;
         Boolean _hasBeenApplied = false;
 
-        public DataFormGenerator(DTE2 dte2, Project activeProject) {
-            _dte2 = dte2;
-            _activeProject = activeProject;
+        public DataFormGenerator(DTE2 dte2) {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             if (dte2 == null) {
                 throw new ArgumentNullException(nameof(dte2));
             }
-            if (activeProject == null) {
-                throw new ArgumentNullException(nameof(activeProject));
-            }
+            _dte2 = dte2;
+            _activeProject = dte2.ActiveDocument.ActiveWindow.Project;
             _projectType = AssemblyAssistant.GetProjectType(dte2.ActiveDocument.ActiveWindow.Project);
             _projectFrameworkVersion = AssemblyAssistant.GetProjectFrameworkVersion(dte2.ActiveDocument.ActiveWindow.Project);
         }
 
         public void Generate() {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             try {
                 var xamlFileClassName = Path.GetFileNameWithoutExtension(_dte2.ActiveDocument.Name);
                 var typeReflector = new TypeReflector();
@@ -52,11 +51,13 @@
         }
 
         void ApplyChanges(String xaml) {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             InsertXaml(xaml);
             _hasBeenApplied = true;
         }
 
         void InsertXaml(String xaml) {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             if (_hasBeenApplied) {
                 _dte2.ExecuteCommand("Edit.Undo");
                 _dte2.ExecuteCommand("Edit.Undo");
