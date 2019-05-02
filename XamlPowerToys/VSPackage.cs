@@ -31,7 +31,7 @@
     public sealed class VSPackage : AsyncPackage {
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress) {
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            //await XamarinXamlPowerToysCommand.InitializeAsync(this);
+            await XamarinXamlPowerToysCommand.InitializeAsync(this);
             await XamlPowerToysCommand.InitializeAsync(this);
         }
     }
