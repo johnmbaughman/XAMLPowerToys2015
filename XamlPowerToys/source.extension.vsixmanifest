@@ -4,7 +4,7 @@
                  xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="d01c1624-8838-4097-bf77-f52d73fc7a1f"
-                  Version="2.0.1"
+                  Version="2.0.2"
                   Language="en-US"
                   Publisher="Karl Shifflett (kdawg)" />
         <DisplayName>XAML Power Toys for Visual Studio 2017 - 2019</DisplayName>

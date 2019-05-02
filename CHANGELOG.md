@@ -10,6 +10,9 @@ download in the
 
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
+## 2.0.2
+- [x] Corrected ObservableCollection sorting, kept hanging with class objects with many properties (over 20).
+
 ## 2.0.1
 - [x] Rolled back support for Visual Studio 2017, working with Microsoft on the issue.
 

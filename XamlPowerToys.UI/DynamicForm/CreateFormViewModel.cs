@@ -7,6 +7,7 @@
     using XamlPowerToys.Model;
     using XamlPowerToys.Model.CodeGeneration;
     using XamlPowerToys.UI.Commands;
+    using System.Collections.ObjectModel;
     using XamlPowerToys.UI.Infrastructure;
 
     public class CreateFormViewModel : ObservableObject {
@@ -210,7 +211,7 @@
                     break;
             }
 
-            classEntity.PropertyInformationCollection.Sort();
+            classEntity.PropertyInformationCollection.Sort((x) => x.Name);
             this.PropertyInformationCollection = classEntity.PropertyInformationCollection;
             this.CreateObjectDefinitions = GetCreateObjectDefinitions();
             this.ShowExpandedView = true;
@@ -334,7 +335,7 @@
                     }
                 }
 
-                propertyInformationViewModel.ClassEntity.PropertyInformationCollection.Sort();
+                propertyInformationViewModel.ClassEntity.PropertyInformationCollection.Sort((x) => x.Name);
                 this.PropertyInformationCollection = propertyInformationViewModel.ClassEntity.PropertyInformationCollection;
                 this.ChildClassEntityInView = true;
             }
