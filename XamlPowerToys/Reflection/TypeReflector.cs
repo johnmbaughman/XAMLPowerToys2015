@@ -24,16 +24,18 @@
         }
 
         public TypeReflectorResult SelectClassFromAllReferencedAssemblies(Project sourceProject, String xamlFileClassName, String sourceCommandName, ProjectType projectFrameworkType, String projectFrameworkVersion) {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+
             if (sourceProject == null) {
                 throw new ArgumentNullException(nameof(sourceProject));
             }
-            if (string.IsNullOrWhiteSpace(sourceCommandName)) {
+            if (String.IsNullOrWhiteSpace(sourceCommandName)) {
                 throw new ArgumentException("Value cannot be null or white space.", nameof(sourceCommandName));
             }
             if (!Enum.IsDefined(typeof(ProjectType), projectFrameworkType)) {
                 throw new InvalidEnumArgumentException(nameof(projectFrameworkType), (int)projectFrameworkType, typeof(ProjectType));
             }
-
+                       
             if (projectFrameworkType == ProjectType.Silverlight) {
                 SetSilverlightInstallPath();
             }
@@ -215,6 +217,7 @@
         }
 
         IEnumerable<String> GetProjectReferences(Project sourceProject) {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             var list = new List<String>();
             var vsProject = (VSProject)sourceProject.Object;
 

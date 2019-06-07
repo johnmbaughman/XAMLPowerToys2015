@@ -1,61 +1,43 @@
 ﻿namespace XamlPowerToys.PackageCommands {
+
     using System;
     using System.ComponentModel.Design;
-    using System.IO;
     using EnvDTE;
     using EnvDTE80;
     using Microsoft.VisualStudio.Shell;
     using XamlPowerToys.Commands;
-    using XamlPowerToys.Infrastructure;
-    using XamlPowerToys.Model;
+    using Task = System.Threading.Tasks.Task;
 
     internal sealed class XamarinXamlPowerToysCommand {
-
-        public DTE2 Dte2 { get; }
-
-        public static XamarinXamlPowerToysCommand Instance { get; private set; }
-
-        public Package Package { get; }
-
-        public IServiceProvider ServiceProvider => this.Package;
-
+        static DTE2 _dte2;
         public const Int32 CommandId = 256;
-
         public static readonly Guid CommandSet = new Guid("D309F791-903F-11D0-9EFC-00A0C911004F");
 
-        public static void Initialize(Package package) {
-            Instance = new XamarinXamlPowerToysCommand(package);
+        static void MenuItemCallback(Object sender, EventArgs e) {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (_dte2.ActiveDocument.Name.EndsWith(".xaml")) {  // this is not needed but more insurance since I can't hide the menu item.
+                var dataFormGenerator = new DataFormGenerator(_dte2);
+                dataFormGenerator.Generate();
+            }
         }
 
-        XamarinXamlPowerToysCommand(Package package) {
-            if (package == null) {
-                throw new ArgumentNullException(nameof(package));
+        public static async Task InitializeAsync(AsyncPackage package) {
+            var dte = await package.GetServiceAsync(typeof(DTE));
+            if (dte == null) {
+                return;
             }
-            this.Package = package;
-            this.Dte2 = (DTE2)this.ServiceProvider.GetService(typeof(DTE));
+            _dte2 = (DTE2)dte;
 
-            var commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (commandService != null) {
+            if (await package.GetServiceAsync(typeof(IMenuCommandService)) is IMenuCommandService commandService) {
                 var menuCommandID = new CommandID(CommandSet, CommandId);
-                var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandID);
-                menuItem.BeforeQueryStatus += BeforeQueryStatusCallback;
+                var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandID) {
+                    // this does not work, found here https://github.com/Microsoft/VSSDK-Extensibility-Samples/blob/master/SingleFileGenerator/src/Commands/ApplyCustomTool.cs
+                    // This will defer visibility control to the VisibilityConstraints section in the .vsct file
+                    Supported = false
+                };
+
                 commandService.AddCommand(menuItem);
             }
         }
-
-        void BeforeQueryStatusCallback(Object sender, EventArgs e) {
-            // gets called from any code file editor.
-            // will need to modify this after VS changes the editor for Xamarin XAML files.
-
-            var result = AssemblyAssistant.GetProjectType(this.Dte2.ActiveDocument.ActiveWindow.Project);
-            var cmd = (OleMenuCommand)sender;
-            cmd.Visible = result == ProjectType.Xamarin && Path.GetExtension(this.Dte2.ActiveDocument.FullName) == ".xaml";
-        }
-
-        void MenuItemCallback(Object sender, EventArgs e) {
-            var dataFormGenerator = new DataFormGenerator(this.Dte2, this.Dte2.ActiveDocument.ActiveWindow.Project);
-            dataFormGenerator.Generate();
-        }
-
     }
 }
